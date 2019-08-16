@@ -29,14 +29,6 @@ pipeline {
         		sh 'dotnet publish WebApi.sln'
         	}
         }
-        stage('Deploy') {
-        	
-        	steps{
-        		echo 'Deploying Project'
-        		sh 'dotnet WebApi/bin/Release/netcoreapp2.1/WebApi.dll'
-        	}
-        }
-        
 
     }
    
