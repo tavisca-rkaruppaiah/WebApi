@@ -39,11 +39,6 @@ pipeline {
         
 
     }
-    post{
-             success{
-                 archiveArtifacts artifacts: '**', fingerprint:true
-                 bat 'dotnet WebApi/bin/Release/netcoreapp2.1/WebApi.dll'
-             }
-        }
+   
 }
 
