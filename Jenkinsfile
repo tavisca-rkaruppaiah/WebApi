@@ -41,20 +41,5 @@ pipeline{
         powershell 'dotnet publish XUnitTestForApi/XUnitTestForApi.csproj'
       }
     }
-    stage('Converting File'){
-       when {
-        expression {params.CHOSEN_ACTION == 'PUBLISH'}
-      }
-      steps{
-        zip zipFile: 'publish.zip', archive: false, dir: 'WebApplicationHi/bin/Debug/netcoreapp2.2/publish'
-        archiveArtifacts artifacts: 'publish.zip', fingerprint: true
-      }
-    }
-  }
-  post{
-    always{
-      deleteDir()
-      powershell 'echo Release...'
-    }
   }
 }
