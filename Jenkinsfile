@@ -1,9 +1,6 @@
 pipeline{
   agent any
   parameters{
-   choice(
-      choices: ['BUILD' , 'TEST' , 'PUBLISH','CREATE_DOCKER_FILE'],
-      name: 'CHOSEN_ACTION')
     string(
       name: 'REPOSITORY_PATH',
       defaultValue: 'https://github.com/tavisca-rkaruppaiah/WebApi.git')
@@ -16,9 +13,6 @@ pipeline{
   }
   stages{
     stage('Build Project'){
-      when {
-        expression {params.CHOSEN_ACTION == 'BUILD' ||  params.CHOSEN_ACTION == 'TEST' ||  params.CHOSEN_ACTION == 'PUBLISH'}
-      }
       steps{
         powershell '''dotnet restore ${SOLUTION_FILE_PATH} --source https://api.nuget.org/v3/index.json
         
@@ -26,17 +20,11 @@ pipeline{
       }
     }
     stage('Testing Project'){
-      when {
-        expression { params.CHOSEN_ACTION == 'TEST' ||  params.CHOSEN_ACTION == 'PUBLISH'}
-      }
       steps{
         powershell 'dotnet test ${TEST_PROJECT_PATH}'
       }
     }
     stage('Publishing Project'){
-      when {
-        expression {params.CHOSEN_ACTION == 'PUBLISH'}
-      }
       steps{
         powershell 'dotnet publish XUnitTestForApi/XUnitTestForApi.csproj'
       }
